@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
 
-  const xMovement = ref('0')
-  const yMovement = ref('0')
   const cursorX = ref(0)
   const cursorY = ref(0)
   const opacity = ref(0)
@@ -10,40 +8,42 @@
   const height = ref(0)
   const scale = ref(1)
   const rotate = ref(0)
+
+  const moveUp = ref(0)
+
   const coffee2Move = ref(0)
-  const coffee1Move = ref(0)
 
   const showFoamCursor = ref(false)
 
-  const opposite = ref(true)
+  const isReverse = ref(true)
 
   let timeout = 0
   let timeout2 = 0
   let timeout3 = 0
 
+  const peekAnimate = (xAxis: number, angle: number): string => {
+    return `translateX(${xAxis}px) rotate(${angle}deg)`
+  }
+
   function handleMouseMove(evt: any) {
-    opposite.value = !opposite.value
+    isReverse.value = !isReverse.value
+    moveUp.value = -30
+
     scale.value = 1
     opacity.value = 1
     rotate.value = 30
 
     coffee2Move.value = 200
-    coffee1Move.value = -30
 
     const e = evt || window.event
-    const x = e.offsetX
-    const y = e.offsetY
-
-    xMovement.value = ((x - window.innerWidth / 2) / 100) as unknown as string
-    yMovement.value = ((y - window.innerWidth / 2) / 100) as unknown as string
 
     width.value = 400
     height.value = 300
 
-    const _x = e.pageX
-    const _y = e.pageY
-    cursorX.value = _x
-    cursorY.value = _y
+    const x = e.pageX
+    const y = e.pageY
+    cursorX.value = x
+    cursorY.value = y
 
     clearTimeout(timeout)
     clearTimeout(timeout2)
@@ -51,20 +51,21 @@
 
     showFoamCursor.value = true
 
-    timeout3 = setTimeout(() => {
-      opacity.value = 0
-    }, 200)
-
     timeout = setTimeout(() => {
       scale.value = 0
       width.value = 0
     }, 600)
 
     timeout2 = setTimeout(() => {
+      moveUp.value = 0
+
       rotate.value = 0
-      coffee1Move.value = 0
       coffee2Move.value = 0
     }, 800)
+
+    timeout3 = setTimeout(() => {
+      opacity.value = 0
+    }, 200)
   }
 </script>
 
@@ -198,7 +199,7 @@
         class="animated-coffee"
         alt="foam logo"
         src="../assets/coffee.png"
-        :style="{ transform: `translateY(${coffee1Move}px)` }"
+        :style="{ transform: `translateY(${moveUp}px)` }"
       />
     </div>
     <div class="pointer-events-none absolute bottom-0">
@@ -207,9 +208,9 @@
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{
-          transform: opposite
-            ? `translateX(${coffee2Move}px) rotate(${rotate}deg)`
-            : `translateX(-${coffee2Move}px) rotate(-${rotate}deg)`,
+          transform: isReverse
+            ? peekAnimate(-coffee2Move, -rotate)
+            : peekAnimate(coffee2Move, rotate),
         }"
       />
     </div>
@@ -219,9 +220,9 @@
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{
-          transform: opposite
-            ? `translateX(-${coffee2Move}px) rotate(-${rotate}deg)`
-            : `translateX(${coffee2Move}px) rotate(${rotate}deg)`,
+          transform: isReverse
+            ? peekAnimate(coffee2Move, rotate)
+            : peekAnimate(-coffee2Move, -rotate),
         }"
       />
     </div>
