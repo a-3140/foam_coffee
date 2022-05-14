@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
   #wrapper {
     width: 250px;
     height: 250px;
