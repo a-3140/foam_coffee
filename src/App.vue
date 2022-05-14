@@ -4,15 +4,13 @@
 </script>
 
 <template>
-  <main>
-    <div
-      v-bind:style="{ 'background-image': image }"
-      id="wrapper"
-      class="fullscreen overflow-hidden"
-    >
-      <router-view />
-    </div>
-  </main>
+  <div
+    v-bind:style="{ 'background-image': image }"
+    id="wrapper"
+    class="fullscreen overflow-hidden"
+  >
+    <router-view />
+  </div>
 </template>
 
 <style scoped>

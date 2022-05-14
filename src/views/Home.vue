@@ -2,21 +2,120 @@
   import { ref } from 'vue'
 
   const xMovement = ref('0')
+  const yMovement = ref('0')
+  const cursorX = ref('0')
+  const cursorY = ref('0')
+  const opacity = ref(1)
+  const width = ref(0)
+  // const scale = ref(1)
+  const rotate = ref(0)
+  const coffee2Move = ref(0)
+  const coffee1Move = ref(0)
 
+  let timeout = 0
+  let timeout2 = 0
   function handleMouseMove(evt: any) {
+    opacity.value = 1
+    rotate.value = 30
+    coffee2Move.value = 150
+    coffee1Move.value = -30
+
     const e = evt || window.event
     const x = e.offsetX
-    xMovement.value = ((x - window.innerWidth / 2) / 10) as unknown as string
-    console.log('x', x)
+    const y = e.offsetY
+
+    xMovement.value = ((x - window.innerWidth / 2) / 100) as unknown as string
+    yMovement.value = ((y - window.innerWidth / 2) / 100) as unknown as string
+    console.log('x', xMovement.value)
+    console.log('y', yMovement.value)
+    width.value = 400
+
+    const _x = e.pageX - 200
+    const _y = e.pageY - 200
+    cursorX.value = _x as unknown as string
+    cursorY.value = _y as unknown as string
+    clearTimeout(timeout)
+    clearTimeout(timeout2)
+
+    timeout = setTimeout(() => {
+      cursorX.value = (_x + 200) as unknown as string
+      width.value = 0
+    }, 800)
+
+    timeout2 = setTimeout(() => {
+      rotate.value = 0
+      coffee1Move.value = 0
+      coffee2Move.value = 0
+    }, 800)
   }
 </script>
 
 <template>
   <div
-    class="container mx-auto flex h-screen items-center justify-center py-5 px-6 md:py-0"
     @mousemove="handleMouseMove"
+    class="container mx-auto flex h-screen cursor-pointer items-center justify-center py-5 md:py-0"
   >
-    <nav class="absolute top-0 flex w-screen justify-between py-4 px-10">
+    <div
+      id="wrapper"
+      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :style="{
+        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        opacity: `${opacity}`,
+        width: `${width}px`,
+      }"
+    />
+
+    <div
+      id="wrapper2"
+      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :style="{
+        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        opacity: `${opacity}`,
+        width: `${width}px`,
+      }"
+    />
+
+    <div
+      id="wrapper3"
+      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :style="{
+        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        opacity: `${opacity}`,
+        width: `${width}px`,
+      }"
+    />
+
+    <div
+      id="wrapper4"
+      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :style="{
+        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        opacity: `${opacity}`,
+        width: `${width}px`,
+      }"
+    />
+
+    <div
+      id="wrapper5"
+      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :style="{
+        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        opacity: `${opacity}`,
+        width: `${width}px`,
+      }"
+    />
+
+    <div
+      id="wrapper6"
+      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :style="{
+        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        opacity: `${opacity}`,
+        width: `${width}px`,
+      }"
+    />
+
+    <nav class="absolute top-0 z-40 flex w-screen justify-between py-4 px-10">
       <div class="flex">
         <svg
           class="mr-2 -ml-1 mt-5 h-4 w-4"
@@ -67,20 +166,91 @@
         ></path>
       </svg>
     </nav>
-    <p
-      class="z-10 pb-80 text-6xl tracking-wide text-stone-900 antialiased sm:text-9xl pointer-events-none "
+    <div
+      class="pointer-events-none z-30 select-none pb-96 text-6xl font-extralight tracking-wide text-stone-700 antialiased sm:text-9xl"
     >
-      FOAM COFFEE
-    </p>
-    <div class="absolute bottom-0">
+      foam coffee
+    </div>
+    <div class="absolute bottom-0 z-30 select-none">
       <img
+        id="coffee"
+        alt="foam logo"
+        src="../assets/coffee.png"
+        :style="{ transform: `translateY(${coffee1Move}px)` }"
+      />
+      <!-- :style="{ transform: `scale(${scale})` }" -->
+    </div>
+    <div class="absolute bottom-0 select-none">
+      <img
+        id="coffee2"
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{
-          transform: `translateX(${xMovement}px`,
-          transition: 'transform ease-in-out',
+          transform: `translateX(${coffee2Move}px) rotate(${rotate}deg)`,
+        }"
+      />
+    </div>
+    <div class="absolute bottom-0 select-none">
+      <img
+        id="coffee3"
+        alt="foam logo"
+        src="../assets/coffee.png"
+        :style="{
+          transform: `translateX(-${coffee2Move}px) rotate(-${rotate}deg)`,
         }"
       />
     </div>
   </div>
 </template>
+
+<style scoped>
+  .bubble {
+    background: radial-gradient(circle closest-side, #ffffff, transparent);
+    filter: blur(30px);
+    cursor: pointer;
+  }
+  #wrapper {
+    width: 400px;
+    height: 400px;
+    transition: transform 0.2s ease, width 0.2s ease-in-out;
+  }
+  #wrapper2 {
+    transition: transform 0.25s ease, width 0.2s ease-in-out;
+    width: 370px;
+    height: 370px;
+  }
+
+  #wrapper3 {
+    transition: transform 0.3s ease, width 0.2s ease-in-out;
+    width: 340px;
+    height: 340px;
+  }
+
+  #wrapper4 {
+    transition: transform 0.35s ease, width 0.2s ease-in-out;
+    width: 310px;
+    height: 310px;
+  }
+
+  #wrapper5 {
+    transition: transform 0.4s ease, width 0.2s ease-in-out;
+    width: 280px;
+    height: 280px;
+  }
+
+  #wrapper6 {
+    transition: transform 0.45s ease, width 0.2s ease-in-out;
+    width: 250px;
+    height: 250px;
+  }
+
+  #coffee {
+    transition: transform 0.6s ease;
+  }
+  #coffee2 {
+    transition: transform 0.6s ease;
+  }
+  #coffee3 {
+    transition: transform 0.6s ease;
+  }
+</style>
