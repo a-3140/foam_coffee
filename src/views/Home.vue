@@ -9,13 +9,11 @@
   const scale = ref(1)
   const rotate = ref(0)
 
-  const moveUp = ref(0)
+  const isReverse = ref(true)
+  const showFoamCursor = ref(false)
+  const transformUpDistance = ref(0)
 
   const coffee2Move = ref(0)
-
-  const showFoamCursor = ref(false)
-
-  const isReverse = ref(true)
 
   let timeout = 0
   let timeout2 = 0
@@ -25,9 +23,13 @@
     return `translateX(${xAxis}px) rotate(${angle}deg)`
   }
 
+  const transformUp = (px: number) => {
+    return `translateY(${px}px)`
+  }
+
   function handleMouseMove(evt: any) {
     isReverse.value = !isReverse.value
-    moveUp.value = -30
+    transformUpDistance.value = -30
 
     scale.value = 1
     opacity.value = 1
@@ -57,7 +59,7 @@
     }, 600)
 
     timeout2 = setTimeout(() => {
-      moveUp.value = 0
+      transformUpDistance.value = 0
 
       rotate.value = 0
       coffee2Move.value = 0
@@ -198,15 +200,15 @@
       <img
         class="animated-coffee"
         alt="foam logo"
-        src="../assets/coffee.png"
-        :style="{ transform: `translateY(${moveUp}px)` }"
+        src="@/assets/coffee.png"
+        :style="{ transform: transformUp(transformUpDistance) }"
       />
     </div>
     <div class="pointer-events-none absolute bottom-0">
       <img
         class="animated-coffee"
-        alt="foam logo"
-        src="../assets/coffee.png"
+        alt="foam-coffee-2"
+        src="@/assets/coffee.png"
         :style="{
           transform: isReverse
             ? peekAnimate(-coffee2Move, -rotate)
@@ -217,8 +219,8 @@
     <div class="pointer-events-none absolute bottom-0">
       <img
         class="animated-coffee"
-        alt="foam logo"
-        src="../assets/coffee.png"
+        alt="foam-coffee-2"
+        src="@/assets/coffee.png"
         :style="{
           transform: isReverse
             ? peekAnimate(coffee2Move, rotate)
