@@ -10,7 +10,6 @@
   const height = ref(0)
   const scale = ref(1)
   const display = ref()
-  // const scale = ref(1)
   const rotate = ref(0)
   const coffee2Move = ref(0)
   const coffee1Move = ref(0)
@@ -194,7 +193,7 @@
     </div>
     <div class="pointer-events-none absolute bottom-0 z-30">
       <img
-        id="coffee"
+        class="animated-coffee"
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{ transform: `translateY(${coffee1Move}px)` }"
@@ -202,7 +201,7 @@
     </div>
     <div class="pointer-events-none absolute bottom-0">
       <img
-        id="coffee2"
+        class="animated-coffee"
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{
@@ -214,7 +213,7 @@
     </div>
     <div class="pointer-events-none absolute bottom-0">
       <img
-        id="coffee3"
+        class="animated-coffee"
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{
@@ -273,13 +272,9 @@
     height: 250px;
   }
 
-  #coffee {
+  .animated-coffee {
     transition: transform 0.6s ease-in-out;
+
   }
-  #coffee2 {
-    transition: transform 0.6s ease-in-out;
-  }
-  #coffee3 {
-    transition: transform 0.6s ease-in-out;
-  }
+
 </style>
