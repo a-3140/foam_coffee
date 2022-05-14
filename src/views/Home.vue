@@ -11,7 +11,7 @@
   const cloudScale = ref(1)
 
   const isReverse = ref(true)
-  const showFoamCursor = ref(false)
+  const showCloudCursor = ref(false)
   const transformUpDistance = ref(0)
 
   const xAxisMoveDistance = ref(0)
@@ -34,7 +34,7 @@
   }
 
   const fadeToExpand = (): void => {
-    showFoamCursor.value = true
+    showCloudCursor.value = true
     cloudScale.value = 1
     cloudOpacity.value = 1
     cloudWidth.value = 400
@@ -95,7 +95,7 @@
     <div
       id="wrapper"
       class="bubble z-30"
-      :hidden="!showFoamCursor"
+      :hidden="!showCloudCursor"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
         opacity: `${cloudOpacity}`,
@@ -104,7 +104,7 @@
 
     <div
       id="wrapper2"
-      :hidden="!showFoamCursor"
+      :hidden="!showCloudCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
@@ -114,7 +114,7 @@
 
     <div
       id="wrapper3"
-      :hidden="!showFoamCursor"
+      :hidden="!showCloudCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
@@ -124,7 +124,7 @@
 
     <div
       id="wrapper4"
-      :hidden="!showFoamCursor"
+      :hidden="!showCloudCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
@@ -134,7 +134,7 @@
 
     <div
       id="wrapper5"
-      :hidden="!showFoamCursor"
+      :hidden="!showCloudCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
@@ -144,7 +144,7 @@
 
     <div
       id="wrapper6"
-      :hidden="!showFoamCursor"
+      :hidden="!showCloudCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
@@ -154,7 +154,7 @@
 
     <div
       id="wrapper7"
-      :hidden="!showFoamCursor"
+      :hidden="!showCloudCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
