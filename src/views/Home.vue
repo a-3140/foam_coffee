@@ -3,21 +3,22 @@
 
   const cursorX = ref(0)
   const cursorY = ref(0)
-  const opacity = ref(0)
-  const width = ref(0)
-  const height = ref(0)
-  const scale = ref(1)
   const rotate = ref(0)
+
+  const cloudOpacity = ref(0)
+  const cloudWidth = ref(0)
+  const cloudHeight = ref(0)
+  const cloudScale = ref(1)
 
   const isReverse = ref(true)
   const showFoamCursor = ref(false)
   const transformUpDistance = ref(0)
 
-  const coffee2Move = ref(0)
+  const xAxisMoveDistance = ref(0)
 
-  let timeout = 0
-  let timeout2 = 0
-  let timeout3 = 0
+  let cloudDownsizeTimeout = 0
+  let cloudFadeoutTimeout = 0
+  let animatePeekTimeout = 0
 
   const transformPeek = (xAxis: number, angle: number): StyleValue => {
     return { transform: `translateX(${xAxis}px) rotate(${angle}deg)` }
@@ -27,49 +28,62 @@
     return { transform: `translateY(${px}px)` }
   }
 
-  const fadeToCenter = (): void => {
-    scale.value = 0
-    width.value = 0
+  const downsize = (): void => {
+    cloudScale.value = 0
+    cloudWidth.value = 0
+  }
+
+  const fadeToExpand = (): void => {
+    showFoamCursor.value = true
+    cloudScale.value = 1
+    cloudOpacity.value = 1
+    cloudWidth.value = 400
+    cloudHeight.value = 300
+  }
+
+  const moveCenterCoffeeUp = (): void => {
+    transformUpDistance.value = -30
+  }
+
+  const animatePeekingCoffee = (): void => {
+    rotate.value = 30
+    xAxisMoveDistance.value = 200
+  }
+
+  const resetPeekingCoffee = (): void => {
+    rotate.value = 0
+    xAxisMoveDistance.value = 0
+    transformUpDistance.value = 0
+  }
+
+  const fadeoutCloud = (): void => {
+    cloudOpacity.value = 0
+  }
+
+  const followCursorCoordinates = (evt: any): void => {
+    const x = evt.pageX
+    const y = evt.pageY
+
+    cursorX.value = x
+    cursorY.value = y
   }
 
   function handleMouseMove(evt: any) {
-    isReverse.value = !isReverse.value
-    transformUpDistance.value = -30
-
-    scale.value = 1
-    opacity.value = 1
-    rotate.value = 30
-
-    coffee2Move.value = 200
-
     const e = evt || window.event
+    isReverse.value = !isReverse.value
 
-    width.value = 400
-    height.value = 300
+    fadeToExpand()
+    moveCenterCoffeeUp()
+    animatePeekingCoffee()
+    followCursorCoordinates(e)
 
-    const x = e.pageX
-    const y = e.pageY
-    cursorX.value = x
-    cursorY.value = y
+    clearTimeout(cloudDownsizeTimeout),
+      clearTimeout(cloudFadeoutTimeout),
+      clearTimeout(animatePeekTimeout)
 
-    clearTimeout(timeout)
-    clearTimeout(timeout2)
-    clearTimeout(timeout3)
-
-    showFoamCursor.value = true
-
-    timeout = setTimeout(fadeToCenter, 600)
-
-    timeout2 = setTimeout(() => {
-      transformUpDistance.value = 0
-
-      rotate.value = 0
-      coffee2Move.value = 0
-    }, 800)
-
-    timeout3 = setTimeout(() => {
-      opacity.value = 0
-    }, 200)
+    cloudDownsizeTimeout = setTimeout(downsize, 600)
+    cloudFadeoutTimeout = setTimeout(fadeoutCloud, 200)
+    animatePeekTimeout = setTimeout(resetPeekingCoffee, 800)
   }
 </script>
 
@@ -83,8 +97,8 @@
       class="bubble z-30"
       :hidden="!showFoamCursor"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
-        opacity: `${opacity}`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+        opacity: `${cloudOpacity}`,
       }"
     />
 
@@ -93,8 +107,8 @@
       :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
-        opacity: `${opacity}`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+        opacity: `${cloudOpacity}`,
       }"
     />
 
@@ -103,8 +117,8 @@
       :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
-        opacity: `${opacity}`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+        opacity: `${cloudOpacity}`,
       }"
     />
 
@@ -113,8 +127,8 @@
       :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
-        opacity: `${opacity}`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+        opacity: `${cloudOpacity}`,
       }"
     />
 
@@ -123,8 +137,8 @@
       :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
-        opacity: `${opacity}`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+        opacity: `${cloudOpacity}`,
       }"
     />
 
@@ -133,10 +147,18 @@
       :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX + 62.5}px, ${
-          cursorY + 62.5
-        }px) scale(${scale})`,
-        opacity: `${opacity}`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+        opacity: `${cloudOpacity}`,
+      }"
+    />
+
+    <div
+      id="wrapper7"
+      :hidden="!showFoamCursor"
+      class="bubble z-30"
+      :style="{
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+        opacity: `${cloudOpacity}`,
       }"
     />
 
@@ -213,8 +235,8 @@
         src="@/assets/coffee.png"
         :style="
           isReverse
-            ? transformPeek(-coffee2Move, -rotate)
-            : transformPeek(coffee2Move, rotate)
+            ? transformPeek(-xAxisMoveDistance, -rotate)
+            : transformPeek(xAxisMoveDistance, rotate)
         "
       />
     </div>
@@ -225,8 +247,8 @@
         src="@/assets/coffee.png"
         :style="
           isReverse
-            ? transformPeek(coffee2Move, rotate)
-            : transformPeek(-coffee2Move, -rotate)
+            ? transformPeek(xAxisMoveDistance, rotate)
+            : transformPeek(-xAxisMoveDistance, -rotate)
         "
       />
     </div>
@@ -277,6 +299,13 @@
     transition: transform 0.45s ease, opacity 0.5s ease-in-out;
     width: 250px;
     height: 250px;
+  }
+
+  #wrapper7 {
+    width: 250px;
+    height: 250px;
+    transition: transform 0.6s ease, opacity 0.5s ease-in-out;
+    background: radial-gradient(circle closest-side, #e5e3e3, transparent);
   }
 
   .animated-coffee {
