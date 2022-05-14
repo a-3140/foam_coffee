@@ -199,8 +199,8 @@
 
       <img
         alt="foam logo"
-        src="../assets/logo.png"
-        class="aspect-square item-center w-15 h-24"
+        src="@/assets/logo.png"
+        class="aspect-square item-center w-15 h-24 grayscale"
       />
       <svg
         class="mt-5 h-6 w-6"
@@ -223,7 +223,7 @@
     <div class="pointer-events-none absolute bottom-0 z-30">
       <img
         class="animated-coffee"
-        alt="foam logo"
+        alt="foam-coffee-1"
         src="@/assets/coffee.png"
         :style="transformMoveUp(transformUpDistance)"
       />
