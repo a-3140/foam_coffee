@@ -3,21 +3,30 @@
 
   const xMovement = ref('0')
   const yMovement = ref('0')
-  const cursorX = ref('0')
-  const cursorY = ref('0')
-  const opacity = ref(1)
+  const cursorX = ref(0)
+  const cursorY = ref(0)
+  const opacity = ref(0)
   const width = ref(0)
+  const height = ref(0)
+  const scale = ref(1)
+  const display = ref()
   // const scale = ref(1)
   const rotate = ref(0)
   const coffee2Move = ref(0)
   const coffee1Move = ref(0)
 
+  const opposite = ref(true)
+
   let timeout = 0
   let timeout2 = 0
+  let timeout3 = 0
   function handleMouseMove(evt: any) {
+    opposite.value = !opposite.value
+    scale.value = 1
     opacity.value = 1
     rotate.value = 30
-    coffee2Move.value = 150
+
+    coffee2Move.value = 200
     coffee1Move.value = -30
 
     const e = evt || window.event
@@ -26,23 +35,30 @@
 
     xMovement.value = ((x - window.innerWidth / 2) / 100) as unknown as string
     yMovement.value = ((y - window.innerWidth / 2) / 100) as unknown as string
-    console.log('x', xMovement.value)
-    console.log('y', yMovement.value)
-    width.value = 400
 
-    const _x = e.pageX - 200
-    const _y = e.pageY - 200
-    cursorX.value = _x as unknown as string
-    cursorY.value = _y as unknown as string
+    width.value = 400
+    height.value = 300
+
+    const _x = e.pageX
+    const _y = e.pageY
+    cursorX.value = _x
+    cursorY.value = _y
+
     clearTimeout(timeout)
     clearTimeout(timeout2)
+    clearTimeout(timeout3)
+
+    timeout3 = setTimeout(() => {
+      opacity.value = 0
+    }, 200)
 
     timeout = setTimeout(() => {
-      cursorX.value = (_x + 200) as unknown as string
+      scale.value = 0
       width.value = 0
-    }, 800)
+    }, 600)
 
     timeout2 = setTimeout(() => {
+      display.value = true
       rotate.value = 0
       coffee1Move.value = 0
       coffee2Move.value = 0
@@ -53,69 +69,73 @@
 <template>
   <div
     @mousemove="handleMouseMove"
-    class="container mx-auto flex h-screen cursor-pointer items-center justify-center py-5 md:py-0"
+    class="relative mx-auto flex h-screen cursor-pointer items-center justify-center py-5 md:py-0"
   >
     <div
       id="wrapper"
-      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      class="bubble z-30"
+      :hidden="!display"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
         opacity: `${opacity}`,
-        width: `${width}px`,
       }"
     />
 
     <div
       id="wrapper2"
-      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :hidden="!display"
+      class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
         opacity: `${opacity}`,
-        width: `${width}px`,
       }"
     />
 
     <div
       id="wrapper3"
-      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :hidden="!display"
+      class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
         opacity: `${opacity}`,
-        width: `${width}px`,
       }"
     />
 
     <div
       id="wrapper4"
-      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :hidden="!display"
+      class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
         opacity: `${opacity}`,
-        width: `${width}px`,
       }"
     />
 
     <div
       id="wrapper5"
-      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :hidden="!display"
+      class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
         opacity: `${opacity}`,
-        width: `${width}px`,
       }"
     />
 
     <div
       id="wrapper6"
-      class="fullscreen bubble absolute top-0 -left-1 z-30"
+      :hidden="!display"
+      class="bubble z-30"
       :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px)`,
+        transform: `translate(${cursorX + 62.5}px, ${
+          cursorY + 62.5
+        }px) scale(${scale})`,
         opacity: `${opacity}`,
-        width: `${width}px`,
       }"
     />
 
-    <nav class="absolute top-0 z-40 flex w-screen justify-between py-4 px-10">
+    <nav
+      class="absolute top-0 left-0 z-40 flex w-screen justify-between py-4 px-10"
+    >
       <div class="flex">
         <svg
           class="mr-2 -ml-1 mt-5 h-4 w-4"
@@ -171,32 +191,35 @@
     >
       foam coffee
     </div>
-    <div class="absolute bottom-0 z-30 select-none">
+    <div class="pointer-events-none absolute bottom-0 z-30">
       <img
         id="coffee"
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{ transform: `translateY(${coffee1Move}px)` }"
       />
-      <!-- :style="{ transform: `scale(${scale})` }" -->
     </div>
-    <div class="absolute bottom-0 select-none">
+    <div class="pointer-events-none absolute bottom-0">
       <img
         id="coffee2"
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{
-          transform: `translateX(${coffee2Move}px) rotate(${rotate}deg)`,
+          transform: opposite
+            ? `translateX(${coffee2Move}px) rotate(${rotate}deg)`
+            : `translateX(-${coffee2Move}px) rotate(-${rotate}deg)`,
         }"
       />
     </div>
-    <div class="absolute bottom-0 select-none">
+    <div class="pointer-events-none absolute bottom-0">
       <img
         id="coffee3"
         alt="foam logo"
         src="../assets/coffee.png"
         :style="{
-          transform: `translateX(-${coffee2Move}px) rotate(-${rotate}deg)`,
+          transform: opposite
+            ? `translateX(-${coffee2Move}px) rotate(-${rotate}deg)`
+            : `translateX(${coffee2Move}px) rotate(${rotate}deg)`,
         }"
       />
     </div>
@@ -205,52 +228,57 @@
 
 <style scoped>
   .bubble {
-    background: radial-gradient(circle closest-side, #ffffff, transparent);
     filter: blur(30px);
     cursor: pointer;
+    position: absolute;
+    margin-left: -200px;
+    margin-top: -150px;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle closest-side, #ffffff, transparent);
   }
   #wrapper {
     width: 400px;
     height: 400px;
-    transition: transform 0.2s ease, width 0.2s ease-in-out;
+    transition: transform 0.2s ease, opacity 0.5s ease-in-out;
   }
   #wrapper2 {
-    transition: transform 0.25s ease, width 0.2s ease-in-out;
+    transition: transform 0.25s ease, opacity 0.5s ease-in-out;
     width: 370px;
     height: 370px;
   }
 
   #wrapper3 {
-    transition: transform 0.3s ease, width 0.2s ease-in-out;
+    transition: transform 0.3s ease, opacity 0.5s ease-in-out;
     width: 340px;
     height: 340px;
   }
 
   #wrapper4 {
-    transition: transform 0.35s ease, width 0.2s ease-in-out;
+    transition: transform 0.35s ease, opacity 0.5s ease-in-out;
     width: 310px;
     height: 310px;
   }
 
   #wrapper5 {
-    transition: transform 0.4s ease, width 0.2s ease-in-out;
+    transition: transform 0.4s ease, opacity 0.5s ease-in-out;
     width: 280px;
     height: 280px;
   }
 
   #wrapper6 {
-    transition: transform 0.45s ease, width 0.2s ease-in-out;
+    transition: transform 0.45s ease, opacity 0.5s ease-in-out;
     width: 250px;
     height: 250px;
   }
 
   #coffee {
-    transition: transform 0.6s ease;
+    transition: transform 0.6s ease-in-out;
   }
   #coffee2 {
-    transition: transform 0.6s ease;
+    transition: transform 0.6s ease-in-out;
   }
   #coffee3 {
-    transition: transform 0.6s ease;
+    transition: transform 0.6s ease-in-out;
   }
 </style>
