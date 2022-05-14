@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, StyleValue } from 'vue'
 
   const cursorX = ref(0)
   const cursorY = ref(0)
@@ -19,12 +19,17 @@
   let timeout2 = 0
   let timeout3 = 0
 
-  const peekAnimate = (xAxis: number, angle: number): string => {
-    return `translateX(${xAxis}px) rotate(${angle}deg)`
+  const transformPeek = (xAxis: number, angle: number): StyleValue => {
+    return { transform: `translateX(${xAxis}px) rotate(${angle}deg)` }
   }
 
-  const transformUp = (px: number) => {
-    return `translateY(${px}px)`
+  const transformMoveUp = (px: number): StyleValue => {
+    return { transform: `translateY(${px}px)` }
+  }
+
+  const fadeToCenter = (): void => {
+    scale.value = 0
+    width.value = 0
   }
 
   function handleMouseMove(evt: any) {
@@ -53,10 +58,7 @@
 
     showFoamCursor.value = true
 
-    timeout = setTimeout(() => {
-      scale.value = 0
-      width.value = 0
-    }, 600)
+    timeout = setTimeout(fadeToCenter, 600)
 
     timeout2 = setTimeout(() => {
       transformUpDistance.value = 0
@@ -201,7 +203,7 @@
         class="animated-coffee"
         alt="foam logo"
         src="@/assets/coffee.png"
-        :style="{ transform: transformUp(transformUpDistance) }"
+        :style="transformMoveUp(transformUpDistance)"
       />
     </div>
     <div class="pointer-events-none absolute bottom-0">
@@ -209,11 +211,11 @@
         class="animated-coffee"
         alt="foam-coffee-2"
         src="@/assets/coffee.png"
-        :style="{
-          transform: isReverse
-            ? peekAnimate(-coffee2Move, -rotate)
-            : peekAnimate(coffee2Move, rotate),
-        }"
+        :style="
+          isReverse
+            ? transformPeek(-coffee2Move, -rotate)
+            : transformPeek(coffee2Move, rotate)
+        "
       />
     </div>
     <div class="pointer-events-none absolute bottom-0">
@@ -221,11 +223,11 @@
         class="animated-coffee"
         alt="foam-coffee-2"
         src="@/assets/coffee.png"
-        :style="{
-          transform: isReverse
-            ? peekAnimate(coffee2Move, rotate)
-            : peekAnimate(-coffee2Move, -rotate),
-        }"
+        :style="
+          isReverse
+            ? transformPeek(coffee2Move, rotate)
+            : transformPeek(-coffee2Move, -rotate)
+        "
       />
     </div>
   </div>
