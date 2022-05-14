@@ -9,10 +9,11 @@
   const width = ref(0)
   const height = ref(0)
   const scale = ref(1)
-  const display = ref()
   const rotate = ref(0)
   const coffee2Move = ref(0)
   const coffee1Move = ref(0)
+
+  const showFoamCursor = ref(false)
 
   const opposite = ref(true)
 
@@ -48,6 +49,8 @@
     clearTimeout(timeout2)
     clearTimeout(timeout3)
 
+    showFoamCursor.value = true
+
     timeout3 = setTimeout(() => {
       opacity.value = 0
     }, 200)
@@ -58,7 +61,6 @@
     }, 600)
 
     timeout2 = setTimeout(() => {
-      display.value = true
       rotate.value = 0
       coffee1Move.value = 0
       coffee2Move.value = 0
@@ -74,7 +76,7 @@
     <div
       id="wrapper"
       class="bubble z-30"
-      :hidden="!display"
+      :hidden="!showFoamCursor"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
         opacity: `${opacity}`,
@@ -83,7 +85,7 @@
 
     <div
       id="wrapper2"
-      :hidden="!display"
+      :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
@@ -93,7 +95,7 @@
 
     <div
       id="wrapper3"
-      :hidden="!display"
+      :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
@@ -103,7 +105,7 @@
 
     <div
       id="wrapper4"
-      :hidden="!display"
+      :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
@@ -113,7 +115,7 @@
 
     <div
       id="wrapper5"
-      :hidden="!display"
+      :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX}px, ${cursorY}px) scale(${scale})`,
@@ -123,7 +125,7 @@
 
     <div
       id="wrapper6"
-      :hidden="!display"
+      :hidden="!showFoamCursor"
       class="bubble z-30"
       :style="{
         transform: `translate(${cursorX + 62.5}px, ${
@@ -228,13 +230,13 @@
 
 <style scoped>
   .bubble {
-    filter: blur(30px);
-    cursor: pointer;
-    position: absolute;
-    margin-left: -200px;
-    margin-top: -150px;
     top: 0;
     left: 0;
+    cursor: pointer;
+    filter: blur(30px);
+    position: absolute;
+    margin-top: -150px;
+    margin-left: -200px;
     background: radial-gradient(circle closest-side, #ffffff, transparent);
   }
   #wrapper {
@@ -274,7 +276,5 @@
 
   .animated-coffee {
     transition: transform 0.6s ease-in-out;
-
   }
-
 </style>
