@@ -242,9 +242,11 @@
     </transition>
 
     <transition name="fade" appear>
-      <div class="pointer-events-none absolute bottom-4 z-30 sm:bottom-0">
+      <div
+        class="h-px-900 pointer-events-none absolute bottom-4 z-30 sm:bottom-0"
+      >
         <img
-          class="animated-coffee w-64 sm:w-full"
+          class="animated-coffee h-fit w-64 sm:w-full"
           alt="foam-coffee-1"
           src="@/assets/coffee.png"
           :style="transformMoveUp(transformUpDistance)"
@@ -254,9 +256,9 @@
     <transition name="fade" appear>
       <div class="pointer-events-none absolute bottom-4 sm:bottom-0">
         <img
-          class="animated-coffee w-64 sm:w-full"
+          class="animated-coffee h-fit w-64 sm:w-full"
           alt="foam-coffee-2"
-          src="@/assets/coffee.png"
+          src="@/assets/coffee2.png"
           :style="
             isReverse
               ? transformPeek(-xAxisMoveDistance, -rotate)
@@ -269,9 +271,9 @@
     <transition name="fade" appear>
       <div class="absolute bottom-4 sm:bottom-0">
         <img
-          class="animated-coffee w-64 sm:w-full"
-          alt="foam-coffee-2"
-          src="@/assets/coffee.png"
+          class="animated-coffee h-fit w-64 sm:w-full"
+          alt="foam-coffee-3"
+          src="@/assets/coffee3.png"
           :style="
             isReverse
               ? transformPeek(xAxisMoveDistance, rotate)
