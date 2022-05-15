@@ -231,7 +231,7 @@
 
     <transition name="slide-fade" appear>
       <div
-        class="relative flex h-4/5 w-screen items-center justify-center align-middle sm:h-3/5"
+        class="relative flex h-4/6 w-screen items-center justify-center align-middle sm:h-3/5"
       >
         <div
           class="pointer-events-none z-30 select-none text-6xl tracking-wide text-stone-900 antialiased outline-1 sm:text-8xl"
