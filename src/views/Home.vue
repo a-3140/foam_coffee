@@ -23,6 +23,17 @@
   let cloudFadeoutTimeout = 0
   let animatePeekTimeout = 0
 
+  const cloudArray = [
+    { size: 400, transitionDelay: 0.2 },
+    { size: 370, transitionDelay: 0.25 },
+    { size: 340, transitionDelay: 0.3 },
+    { size: 310, transitionDelay: 0.35 },
+    { size: 280, transitionDelay: 0.4 },
+    { size: 250, transitionDelay: 0.45 },
+    { size: 220, transitionDelay: 0.5 },
+    { size: 200, transitionDelay: 0.55 },
+  ]
+
   const transformPeek = (xAxis: number, angle: number): StyleValue => {
     return { transform: `translateX(${xAxis}px) rotate(${angle}deg)` }
   }
@@ -86,7 +97,7 @@
 
     cloudDownsizeTimeout = setTimeout(downsize, 600)
     cloudFadeoutTimeout = setTimeout(fadeoutCloud, 200)
-    animatePeekTimeout = setTimeout(resetPeekingCoffee, 800)
+    animatePeekTimeout = setTimeout(resetPeekingCoffee, 900)
   }
 </script>
 
@@ -95,75 +106,18 @@
     @mousemove="handleMouseMove"
     class="relative mx-auto flex h-screen cursor-pointer justify-center py-5 text-center"
   >
-    <div
-      id="wrapper"
-      class="bubble z-30"
-      :hidden="!showCloudCursor"
-      :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-        opacity: `${cloudOpacity}`,
-      }"
-    />
-
-    <div
-      id="wrapper2"
-      :hidden="!showCloudCursor"
-      class="bubble z-30"
-      :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-        opacity: `${cloudOpacity}`,
-      }"
-    />
-
-    <div
-      id="wrapper3"
-      :hidden="!showCloudCursor"
-      class="bubble z-30"
-      :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-        opacity: `${cloudOpacity}`,
-      }"
-    />
-
-    <div
-      id="wrapper4"
-      :hidden="!showCloudCursor"
-      class="bubble z-30"
-      :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-        opacity: `${cloudOpacity}`,
-      }"
-    />
-
-    <div
-      id="wrapper5"
-      :hidden="!showCloudCursor"
-      class="bubble z-30"
-      :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-        opacity: `${cloudOpacity}`,
-      }"
-    />
-
-    <div
-      id="wrapper6"
-      :hidden="!showCloudCursor"
-      class="bubble z-30"
-      :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-        opacity: `${cloudOpacity}`,
-      }"
-    />
-
-    <div
-      id="wrapper7"
-      :hidden="!showCloudCursor"
-      class="bubble z-30"
-      :style="{
-        transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-        opacity: `${cloudOpacity}`,
-      }"
-    />
+    <template v-for="item in cloudArray">
+      <div
+        class="bubble absolute top-0 left-0 z-30 cursor-pointer blur-2xl"
+        :style="{
+          transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
+          opacity: `${cloudOpacity}`,
+          height: `${item.size}px`,
+          width: `${item.size}px`,
+          transition: `transform ${item.transitionDelay}s ease, opacity 0.5s ease-in-out`,
+        }"
+      ></div>
+    </template>
 
     <transition name="fade" appear>
       <nav
@@ -287,59 +241,12 @@
 
 <style scoped>
   .bubble {
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    filter: blur(30px);
-    position: absolute;
     margin-top: -150px;
-    margin-left: -200px;
+    margin-left: -150px;
     background: radial-gradient(circle closest-side, #ffffff, transparent);
   }
-  #wrapper {
-    width: 400px;
-    height: 400px;
-    transition: transform 0.2s ease, opacity 0.5s ease-in-out;
-  }
-  #wrapper2 {
-    transition: transform 0.25s ease, opacity 0.5s ease-in-out;
-    width: 370px;
-    height: 370px;
-  }
-
-  #wrapper3 {
-    transition: transform 0.3s ease, opacity 0.5s ease-in-out;
-    width: 340px;
-    height: 340px;
-  }
-
-  #wrapper4 {
-    transition: transform 0.35s ease, opacity 0.5s ease-in-out;
-    width: 310px;
-    height: 310px;
-  }
-
-  #wrapper5 {
-    transition: transform 0.4s ease, opacity 0.5s ease-in-out;
-    width: 280px;
-    height: 280px;
-  }
-
-  #wrapper6 {
-    transition: transform 0.45s ease, opacity 0.5s ease-in-out;
-    width: 250px;
-    height: 250px;
-  }
-
-  #wrapper7 {
-    width: 250px;
-    height: 250px;
-    transition: transform 0.6s ease, opacity 0.5s ease-in-out;
-    background: radial-gradient(circle closest-side, #e5e3e3, transparent);
-  }
-
   .animated-coffee {
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.9s ease-in-out;
   }
   .nav-menu {
     background: linear-gradient(
