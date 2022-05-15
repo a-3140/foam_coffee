@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { ref, StyleValue } from 'vue'
-  import FacebookIcon from '../icons/facebook.vue'
-  import InstagramIcon from '../icons/instagram.vue'
-  import BurgerIcon from '../icons/burger.vue'
+  import BurgerIcon from '@/icons/burger.vue'
+  import FacebookIcon from '@/icons/facebook.vue'
+  import InstagramIcon from '@/icons/instagram.vue'
+  import AnimatedCloud from '@/components/animated/AnimatedCloud.vue'
 
   const cursorX = ref(0)
   const cursorY = ref(0)
@@ -50,7 +51,7 @@
     cloudWidth.value = 0
   }
 
-  const fadeToExpand = (): void => {
+  const fadeinExpand = (): void => {
     showCloudCursor.value = true
     cloudScale.value = 1
     cloudOpacity.value = 1
@@ -85,18 +86,18 @@
     cursorY.value = y
   }
 
-  function handleMouseMove(evt: any) {
+  const handleMouseMove = (evt: any) => {
     const e = evt || window.event
     isReverse.value = !isReverse.value
 
-    fadeToExpand()
+    fadeinExpand()
     moveCenterCoffeeUp()
     animatePeekingCoffee()
     followCursorCoordinates(e)
 
-    clearTimeout(cloudDownsizeTimeout),
-      clearTimeout(cloudFadeoutTimeout),
-      clearTimeout(animatePeekTimeout)
+    clearTimeout(cloudDownsizeTimeout)
+    clearTimeout(cloudFadeoutTimeout)
+    clearTimeout(animatePeekTimeout)
 
     cloudDownsizeTimeout = setTimeout(downsize, 600)
     cloudFadeoutTimeout = setTimeout(fadeoutCloud, 200)
@@ -109,19 +110,14 @@
     @mousemove="handleMouseMove"
     class="relative mx-auto flex h-screen cursor-pointer justify-center py-5 text-center"
   >
-    <template v-for="item in cloudArray">
-      <div
-        class="bubble absolute top-0 left-0 z-30 cursor-pointer blur-2xl"
-        :hidden="!showCloudCursor"
-        :style="{
-          width: `${item.size}px`,
-          height: `${item.size}px`,
-          opacity: `${cloudOpacity}`,
-          transform: `translate(${cursorX}px, ${cursorY}px) scale(${cloudScale})`,
-          transition: `transform ${item.transitionDelay}s ease, opacity 0.5s ease-in-out`,
-        }"
-      ></div>
-    </template>
+    <animated-cloud
+      :cursor-x="cursorX"
+      :cursor-y="cursorY"
+      :cloud-array="cloudArray"
+      :cloud-scale="cloudScale"
+      :cloud-opacity="cloudOpacity"
+      :show-cloud-cursor="showCloudCursor"
+    />
 
     <transition name="fade" appear>
       <nav
@@ -206,11 +202,6 @@
 </template>
 
 <style scoped>
-  .bubble {
-    margin-top: -150px;
-    margin-left: -150px;
-    background: radial-gradient(circle closest-side, #ffffff, transparent);
-  }
   .animated-coffee {
     transition: transform 0.9s ease-in-out;
   }
