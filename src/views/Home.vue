@@ -93,7 +93,7 @@
 <template>
   <div
     @mousemove="handleMouseMove"
-    class="relative mx-auto flex h-screen cursor-pointer justify-center py-5 md:py-0"
+    class="relative mx-auto flex h-screen cursor-pointer justify-center py-5 text-center"
   >
     <div
       id="wrapper"
@@ -228,17 +228,17 @@
     </nav>
 
     <div
-      class="relative flex h-4/5 w-screen items-center justify-center align-middle"
+      class="relative flex h-4/5 w-screen items-center justify-center align-middle sm:h-3/5"
     >
       <div
-        class="pointer-events-none top-1/4 z-30 select-none text-6xl font-extralight tracking-wide text-stone-700 antialiased sm:text-9xl"
+        class="pointer-events-none z-30 select-none text-6xl font-extralight tracking-wide text-stone-700 antialiased sm:text-9xl"
       >
-        foam coffee
+        Foam Coffee
       </div>
     </div>
-    <div class="pointer-events-none absolute bottom-4 sm:bottom-0">
+    <div class="pointer-events-none absolute bottom-4 z-30 sm:bottom-0">
       <img
-        class="animated-coffee w-60 sm:w-full"
+        class="animated-coffee w-64 sm:w-full"
         alt="foam-coffee-1"
         src="@/assets/coffee.png"
         :style="transformMoveUp(transformUpDistance)"
@@ -246,7 +246,7 @@
     </div>
     <div class="pointer-events-none absolute bottom-4 sm:bottom-0">
       <img
-        class="animated-coffee w-60 sm:w-full"
+        class="animated-coffee w-64 sm:w-full"
         alt="foam-coffee-2"
         src="@/assets/coffee.png"
         :style="
