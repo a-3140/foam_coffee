@@ -5,6 +5,9 @@
   const cursorY = ref(0)
   const rotate = ref(0)
 
+  // TODO: Tech - use object instead of singular values and use types
+  // TODO: Tech - use descriptive and move imperative code outside
+
   const cloudOpacity = ref(0)
   const cloudWidth = ref(0)
   const cloudHeight = ref(0)
@@ -163,7 +166,7 @@
     />
 
     <nav
-      class="absolute top-0 left-0 z-40 flex w-screen justify-between py-4 px-10"
+      class="nav-menu absolute top-0 left-0 z-40 flex w-screen justify-between py-4 px-10"
     >
       <div class="flex">
         <a href="https://www.facebook.com/foamcoffeeph/" target="_blank">
@@ -314,5 +317,13 @@
 
   .animated-coffee {
     transition: transform 0.6s ease-in-out;
+  }
+  .nav-menu {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.35),
+      rgba(255, 255, 255, 0)
+    );
   }
 </style>
