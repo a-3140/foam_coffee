@@ -1,42 +1,11 @@
 <script setup lang="ts">
   import { ref, StyleValue } from 'vue'
-  import BurgerIcon from '@/icons/burger.vue'
-  import FacebookIcon from '@/icons/facebook.vue'
-  import InstagramIcon from '@/icons/instagram.vue'
   import AnimatedCloud from '@/components/animated/AnimatedCloud.vue'
+  import Nav from '../components/main/Nav.vue'
 
-  const cursorX = ref(0)
-  const cursorY = ref(0)
   const rotate = ref(0)
-
-  // TODO: Tech - use object instead of singular values and use types
-  // TODO: Tech - use descriptive and move imperative code outside
-
-  const cloudOpacity = ref(0)
-  const cloudWidth = ref(0)
-  const cloudHeight = ref(0)
-  const cloudScale = ref(1)
-
-  const isReverse = ref(true)
-  const showCloudCursor = ref(false)
-  const transformUpDistance = ref(0)
-
   const xAxisMoveDistance = ref(0)
-
-  let cloudDownsizeTimeout = 0
-  let cloudFadeoutTimeout = 0
-  let animatePeekTimeout = 0
-
-  const cloudArray = [
-    { size: 400, transitionDelay: 0.2 },
-    { size: 370, transitionDelay: 0.25 },
-    { size: 340, transitionDelay: 0.3 },
-    { size: 310, transitionDelay: 0.35 },
-    { size: 280, transitionDelay: 0.4 },
-    { size: 250, transitionDelay: 0.45 },
-    { size: 220, transitionDelay: 0.5 },
-    { size: 200, transitionDelay: 0.55 },
-  ]
+  const transformUpDistance = ref(0)
 
   const transformPeek = (xAxis: number, angle: number): StyleValue => {
     return { transform: `translateX(${xAxis}px) rotate(${angle}deg)` }
@@ -44,19 +13,6 @@
 
   const transformMoveUp = (px: number): StyleValue => {
     return { transform: `translateY(${px}px)` }
-  }
-
-  const downsize = (): void => {
-    cloudScale.value = 0
-    cloudWidth.value = 0
-  }
-
-  const fadeinExpand = (): void => {
-    showCloudCursor.value = true
-    cloudScale.value = 1
-    cloudOpacity.value = 1
-    cloudWidth.value = 400
-    cloudHeight.value = 300
   }
 
   const moveCenterCoffeeUp = (): void => {
@@ -68,81 +24,18 @@
     xAxisMoveDistance.value = 200
   }
 
-  const resetPeekingCoffee = (): void => {
-    rotate.value = 0
-    xAxisMoveDistance.value = 0
-    transformUpDistance.value = 0
-  }
-
-  const fadeoutCloud = (): void => {
-    cloudOpacity.value = 0
-  }
-
-  const followCursorCoordinates = (evt: any): void => {
-    const x = evt.pageX
-    const y = evt.pageY
-
-    cursorX.value = x
-    cursorY.value = y
-  }
-
-  const handleMouseMove = (evt: any) => {
-    const e = evt || window.event
-    isReverse.value = !isReverse.value
-
-    fadeinExpand()
+  const animateCoffees = () => {
     moveCenterCoffeeUp()
     animatePeekingCoffee()
-    followCursorCoordinates(e)
-
-    clearTimeout(cloudDownsizeTimeout)
-    clearTimeout(cloudFadeoutTimeout)
-    clearTimeout(animatePeekTimeout)
-
-    cloudDownsizeTimeout = setTimeout(downsize, 600)
-    cloudFadeoutTimeout = setTimeout(fadeoutCloud, 200)
-    animatePeekTimeout = setTimeout(resetPeekingCoffee, 900)
   }
 </script>
 
 <template>
-  <div
-    @mousemove="handleMouseMove"
-    class="relative mx-auto flex h-screen cursor-pointer justify-center py-5 text-center"
-  >
-    <animated-cloud
-      :cursor-x="cursorX"
-      :cursor-y="cursorY"
-      :cloud-array="cloudArray"
-      :cloud-scale="cloudScale"
-      :cloud-opacity="cloudOpacity"
-      :show-cloud-cursor="showCloudCursor"
-    />
+  <div class="relative mx-auto flex h-screen justify-center py-5 text-center">
+    <animated-cloud />
 
     <transition name="fade" appear>
-      <nav
-        class="nav-menu fixed top-0 left-0 z-40 flex w-screen flex-row py-4 px-10 transition delay-150 ease-in-out"
-      >
-        <div class="flex basis-1/3">
-          <a href="https://www.facebook.com/foamcoffeeph/" target="_blank">
-            <facebook-icon />
-          </a>
-          <a href="https://www.instagram.com/foamcoffeeph/" target="_blank">
-            <instagram-icon />
-          </a>
-        </div>
-
-        <div class="flex basis-1/3 justify-center">
-          <img
-            alt="foam logo"
-            src="@/assets/logo.png"
-            class="aspect-square w-15 h-24 items-end grayscale"
-          />
-        </div>
-        <div class="flex basis-1/3 justify-end">
-          <burger-icon />
-        </div>
-      </nav>
+      <Nav />
     </transition>
 
     <transition name="slide-fade" appear>
@@ -159,7 +52,8 @@
 
     <transition name="fade" appear>
       <div
-        class="h-px-900 pointer-events-none absolute bottom-4 z-30 sm:bottom-0"
+        class="h-px-900 absolute bottom-4 z-30 cursor-pointer sm:bottom-0"
+        @mouseenter="animateCoffees"
       >
         <img
           class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
@@ -170,16 +64,12 @@
       </div>
     </transition>
     <transition name="fade" appear>
-      <div class="pointer-events-none absolute bottom-4 sm:bottom-0">
+      <div class="absolute bottom-4 sm:bottom-0">
         <img
           class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
           alt="foam-coffee-2"
           src="@/assets/coffee2.png"
-          :style="
-            isReverse
-              ? transformPeek(-xAxisMoveDistance, -rotate)
-              : transformPeek(xAxisMoveDistance, rotate)
-          "
+          :style="transformPeek(-xAxisMoveDistance, -rotate)"
         />
       </div>
     </transition>
@@ -190,11 +80,7 @@
           class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
           alt="foam-coffee-3"
           src="@/assets/coffee3.png"
-          :style="
-            isReverse
-              ? transformPeek(xAxisMoveDistance, rotate)
-              : transformPeek(-xAxisMoveDistance, -rotate)
-          "
+          :style="transformPeek(xAxisMoveDistance, rotate)"
         />
       </div>
     </transition>
@@ -204,14 +90,6 @@
 <style scoped>
   .animated-coffee {
     transition: transform 0.9s ease-in-out;
-  }
-  .nav-menu {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.35),
-      rgba(255, 255, 255, 0)
-    );
   }
   .fade-enter-active,
   .fade-leave-active {
