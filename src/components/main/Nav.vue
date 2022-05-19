@@ -14,7 +14,7 @@
 
 <template>
   <nav
-    class="nav-menu fixed top-0 left-0 z-40 flex w-screen flex-row py-4 px-20 transition delay-150 ease-in-out"
+    class="nav-menu sm:px20 fixed top-0 left-0 z-40 flex w-screen flex-row py-4 px-10 transition delay-150 ease-in-out"
   >
     <transition name="fade" appear>
       <div
