@@ -16,6 +16,35 @@
   <nav
     class="nav-menu fixed top-0 left-0 z-40 flex w-screen flex-row py-4 px-20 transition delay-150 ease-in-out"
   >
+    <transition name="fade" appear>
+      <div
+        v-if="isMenuOpen"
+        class="nav-open fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-slate-50/90"
+      >
+        <ul>
+          <li
+            class="cursor-pointer py-4 text-3xl transition-all duration-500 ease-in-out hover:scale-110"
+          >
+            home
+          </li>
+          <li
+            class="cursor-pointer py-4 text-3xl transition-all duration-500 ease-in-out hover:scale-110"
+          >
+            menu
+          </li>
+          <li
+            class="cursor-pointer py-4 text-3xl transition-all duration-500 ease-in-out hover:scale-110"
+          >
+            story
+          </li>
+          <li
+            class="cursor-pointer py-4 text-3xl transition-all duration-500 ease-in-out hover:scale-110"
+          >
+            contact
+          </li>
+        </ul>
+      </div>
+    </transition>
     <div class="flex basis-1/3">
       <a href="https://www.facebook.com/foamcoffeeph/" target="_blank">
         <facebook-icon />
@@ -44,6 +73,15 @@
 </template>
 
 <style>
+  nav-open {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.35),
+      /* rgba(255, 255, 255, 0) */
+    );
+  }
+
   .nav-menu {
     background: linear-gradient(
       180deg,
