@@ -39,7 +39,7 @@
         class="relative flex h-4/6 w-screen items-center justify-center align-middle sm:h-3/5"
       >
         <div
-          class="z-30 select-none text-6xl tracking-wide text-stone-900 antialiased outline-1 sm:text-8xl"
+          class="z-40 select-none text-6xl tracking-wide text-stone-900 antialiased outline-1 sm:text-8xl"
         >
           foam coffee
         </div>

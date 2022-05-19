@@ -14,7 +14,7 @@
 
 <template>
   <nav
-    class="nav-menu sm:px20 fixed top-0 left-0 z-40 flex w-screen flex-row py-4 px-10 transition delay-150 ease-in-out"
+    class="nav-menu fixed top-0 left-0 z-50 flex w-screen flex-row py-4 px-5 transition delay-150 ease-in-out sm:px-20"
   >
     <transition name="fade" appear>
       <div
@@ -61,11 +61,11 @@
         class="aspect-square w-15 h-24 items-end grayscale"
       />
     </div>
-    <div class="flex basis-1/3 justify-end">
+    <div class="relative flex basis-1/3 justify-end">
       <div class="cursor-pointer" @click="toggleMenu">
         <transition name="fade" appear>
-          <burger-icon v-if="!isMenuOpen" class="absolute" />
-          <close-icon v-else="!sMenuOpen" class="absolute" />
+          <burger-icon v-if="!isMenuOpen" class="absolute right-0" />
+          <close-icon v-else="!sMenuOpen" class="absolute right-0" />
         </transition>
       </div>
     </div>
@@ -73,15 +73,6 @@
 </template>
 
 <style>
-  nav-open {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.35),
-      /* rgba(255, 255, 255, 0) */
-    );
-  }
-
   .nav-menu {
     background: linear-gradient(
       180deg,
