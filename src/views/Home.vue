@@ -1,15 +1,11 @@
 <script setup lang="ts">
   import { ref, StyleValue } from 'vue'
+  import Nav from '@/components/main/Nav.vue'
   import AnimatedCloud from '@/components/animated/AnimatedCloud.vue'
-  import Nav from '../components/main/Nav.vue'
 
   const rotate = ref(0)
   const xAxisMoveDistance = ref(0)
   const transformUpDistance = ref(0)
-
-  const transformPeek = (xAxis: number, angle: number): StyleValue => {
-    return { transform: `translateX(${xAxis}px) rotate(${angle}deg)` }
-  }
 
   const transformMoveUp = (px: number): StyleValue => {
     return { transform: `translateY(${px}px)` }
@@ -43,7 +39,7 @@
         class="relative flex h-4/6 w-screen items-center justify-center align-middle sm:h-3/5"
       >
         <div
-          class="pointer-events-none z-30 select-none text-6xl tracking-wide text-stone-900 antialiased outline-1 sm:text-8xl"
+          class="z-30 select-none text-6xl tracking-wide text-stone-900 antialiased outline-1 sm:text-8xl"
         >
           foam coffee
         </div>
@@ -52,7 +48,7 @@
 
     <transition name="fade" appear>
       <div
-        class="h-px-900 absolute bottom-4 z-30 cursor-pointer sm:bottom-0"
+        class="h-px-900 absolute bottom-4 z-30 sm:bottom-0"
         @mouseenter="animateCoffees"
       >
         <img
@@ -69,7 +65,9 @@
           class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
           alt="foam-coffee-2"
           src="@/assets/coffee2.png"
-          :style="transformPeek(-xAxisMoveDistance, -rotate)"
+          :style="{
+            transform: `translateX(${-xAxisMoveDistance}px) rotate(${-rotate}deg)`,
+          }"
         />
       </div>
     </transition>
@@ -80,7 +78,9 @@
           class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
           alt="foam-coffee-3"
           src="@/assets/coffee3.png"
-          :style="transformPeek(xAxisMoveDistance, rotate)"
+          :style="{
+            transform: `translateX(${xAxisMoveDistance}px) rotate(${rotate}deg)`,
+          }"
         />
       </div>
     </transition>
@@ -93,7 +93,7 @@
   }
   .fade-enter-active,
   .fade-leave-active {
-    transition: opacity 4s ease;
+    transition: opacity 2.5s ease;
   }
 
   .fade-enter-from,
@@ -105,7 +105,7 @@
   }
 
   .slide-fade-leave-active {
-    transition: all 3.2s cubic-bezier(1, 0.5, 0.8, 1);
+    transition: all 2.5s cubic-bezier(1, 0.5, 0.8, 1);
   }
 
   .slide-fade-enter-from,
