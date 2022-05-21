@@ -14,9 +14,9 @@
 
   const cloudArray: CloudArray = new Array(7).fill({}).map((e, i) => {
     const initialSize = 400
-    const initialDelay = 0.4
+    const initialDelay = 0.05
     const sizeDiff = i * 40
-    const additionalDelay = i * 0.1
+    const additionalDelay = i * 0.03
     return {
       size: initialSize - sizeDiff,
       transitionDelay: initialDelay + additionalDelay,
