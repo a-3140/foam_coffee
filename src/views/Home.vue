@@ -52,7 +52,7 @@
         @mouseenter="animateCoffees"
       >
         <img
-          class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
+          class="animated-coffee h-full max-h-[28rem] w-64 sm:h-fit sm:w-full"
           alt="foam-coffee-1"
           src="@/assets/coffee.png"
           :style="transformMoveUp(transformUpDistance)"
@@ -62,7 +62,7 @@
     <transition name="fade" appear>
       <div class="absolute bottom-4 sm:bottom-0">
         <img
-          class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
+          class="animated-coffee h-full max-h-[28rem] w-64 sm:h-fit sm:w-full"
           alt="foam-coffee-2"
           src="@/assets/coffee2.png"
           :style="{
@@ -75,7 +75,7 @@
     <transition name="fade" appear>
       <div class="absolute bottom-4 sm:bottom-0">
         <img
-          class="animated-coffee h-full w-64 sm:h-fit sm:w-full"
+          class="animated-coffee h-full max-h-[28rem] w-64 sm:h-fit sm:w-full"
           alt="foam-coffee-3"
           src="@/assets/coffee3.png"
           :style="{
