@@ -46,10 +46,10 @@
       </div>
     </transition>
     <div class="flex basis-1/3">
-      <a href="https://www.facebook.com/foamcoffeeph/" target="_blank">
+      <a href="#">
         <facebook-icon />
       </a>
-      <a href="https://www.instagram.com/foamcoffeeph/" target="_blank">
+      <a href="#">
         <instagram-icon />
       </a>
     </div>
